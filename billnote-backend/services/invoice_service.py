@@ -66,3 +66,34 @@ def create_invoice_record(extracted_data: dict, year_val: int, month_val: int, s
     # 5. DynamoDBへ書き込み
     table.put_item(Item=item)
     return item
+
+def search_invoices_by_customer(customer_name: str):
+    """顧客名で検索"""
+    response = table.query(
+        IndexName='CustomerNameIndex',
+        KeyConditionExpression=Key('customer_name').eq(customer_name)
+    )
+    return response.get('Items', [])
+
+def search_invoices_by_month(invoice_month: str):
+    """年月で検索"""
+    response = table.query(
+        IndexName='DateSearchIndex',
+        KeyConditionExpression=Key('invoice_month').eq(invoice_month)
+    )
+    return response.get('Items', [])
+
+def check_duplicate_invoice(customer_name: str, invoice_month: str, total_amount: int):
+    """同じ顧客、同じ月、同じ金額のデータがあるかチェックする"""
+    # 顧客名インデックスを使って、その人のその月のデータを検索
+    response = table.query(
+        IndexName='CustomerNameIndex',
+        KeyConditionExpression=Key('customer_name').eq(customer_name),
+        # フィルタリングで月と金額を絞り込む
+        FilterExpression='invoice_month = :m AND total_amount = :a',
+        ExpressionAttributeValues={
+            ':m': invoice_month,
+            ':a': total_amount
+        }
+    )
+    return response.get('Items', []) # 存在すればリストが返る
