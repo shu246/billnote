@@ -6,3 +6,5 @@ version1.00
     ・請求書をダウンロードできる
 version1.01
     本番環境(lambda)用にmain.pyを編集
+version1.02
+    lambda用にファイル構成変更
