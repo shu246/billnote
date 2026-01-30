@@ -83,6 +83,14 @@ def search_invoices_by_month(invoice_month: str):
     )
     return response.get('Items', [])
 
+def search_invoices_by_customer_id(customer_id: str):
+    """顧客IDで検索 (CustomerIDIndexを使用)"""
+    response = table.query(
+        IndexName='CustomerIDIndex', # AWS側でこの名前のGSIを作成してください
+        KeyConditionExpression=Key('customer_id').eq(customer_id)
+    )
+    return response.get('Items', [])
+
 def check_duplicate_invoice(customer_name: str, invoice_month: str, total_amount: int):
     """同じ顧客、同じ月、同じ金額のデータがあるかチェックする"""
     # 顧客名インデックスを使って、その人のその月のデータを検索

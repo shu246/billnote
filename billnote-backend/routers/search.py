@@ -26,6 +26,13 @@ async def get_by_month(
         return {"results": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"検索エラー: {str(e)}")
+    
+@router.get("/search/customer_id")
+async def get_by_customer_id(customer_id: str = Query(..., description="検索したい顧客ID")):
+    # invoice_serviceに後述する新しい関数を呼び出す
+    from services.invoice_service import search_invoices_by_customer_id
+    results = search_invoices_by_customer_id(customer_id)
+    return {"results": results}
 
 @router.get("/download")
 async def download_invoice(s3_path: str = Query(..., description="s3://... のフルパス")):
