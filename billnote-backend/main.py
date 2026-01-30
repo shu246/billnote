@@ -14,18 +14,18 @@ app.include_router(search_router)
 
 # --- フロントエンドとの接続設定 ---
 
-# index.htmlがある場所を特定する (親フォルダに移動してフロントエンド側を見る)
-# main.py の場所を基準にパスを計算
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-FRONTEND_DIR = os.path.join(BASE_DIR, "..", "billnote-frontend", "static")
 
-# /static というURLで、フロントエンドのstaticフォルダの中身を公開する
-app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
+# 1. まず同じ階層の static を探す (Lambda/デプロイ用)
+# 2. なければ一つ上の階層を探す (ローカル開発用)
+static_path = os.path.join(BASE_DIR, "static")
+if not os.path.exists(static_path):
+    static_path = os.path.join(BASE_DIR, "..", "billnote-frontend", "static")
+
+app.mount("/static", StaticFiles(directory=static_path), name="static")
 
 @app.get("/")
 async def read_index():
-    # ブラウザで「/」にアクセスした時に index.html を返す
-    return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+    return FileResponse(os.path.join(static_path, "index.html"))
 
-# Lambda用のハンドラーを作成
 handler = Mangum(app)
