@@ -5,7 +5,7 @@ from boto3.dynamodb.conditions import Key
 
 # AWS設定
 dynamodb = boto3.resource('dynamodb', region_name='ap-northeast-1')
-table = dynamodb.Table('Invoices') # AWSで作った実際のテーブル名
+table = dynamodb.Table('Invoices') # DynamoDBテーブル名
 
 def get_existing_customer_id(phone: str):
     """
@@ -14,7 +14,7 @@ def get_existing_customer_id(phone: str):
     if not phone or phone == "None":
         return None
 
-    # GSIを使ってクエリを実行（全件スキャンしないので高速・安価）
+    # GSIを使ってクエリを実行
     response = table.query(
         IndexName='PhoneIndex',
         KeyConditionExpression=Key('phone').eq(str(phone))
@@ -34,7 +34,7 @@ def create_invoice_record(extracted_data: dict, year_val: int, month_val: int, s
     # 1. invoice_id を自動生成
     invoice_id = str(uuid.uuid4())
     
-    # 2. 既存顧客のチェック (今回追加した関数を呼び出す)
+    # 2. 既存顧客のチェック
     phone = str(extracted_data.get('phone', ""))
     existing_id = get_existing_customer_id(phone)
     
@@ -45,7 +45,7 @@ def create_invoice_record(extracted_data: dict, year_val: int, month_val: int, s
         address = str(extracted_data.get('address', ""))
         customer_id = str(uuid.uuid4()) if (phone and phone != "None") or (address and address != "None") else "0"
 
-    # 3. 日付データの整形（年-月 だけにする：日の概念をなくす）
+    # 3. 日付データの整形（年-月）
     invoice_month = f"{year_val}-{str(month_val).zfill(2)}"
 
     # 4. DynamoDB保存データの作成
@@ -56,8 +56,8 @@ def create_invoice_record(extracted_data: dict, year_val: int, month_val: int, s
         'address': str(extracted_data['address']) if extracted_data['address'] else "",
         'phone': phone if phone != "None" else "",
         'invoice_month': invoice_month, # YYYY-MM
-        'year': year_val,              # 数値型（検索用GSIのキー）
-        'month': month_val,            # 数値型（検索用GSIのキー）
+        'year': year_val,
+        'month': month_val,
         'total_amount': int(extracted_data['total_amount']) if extracted_data['total_amount'] else 0,
         's3_path': s3_path,
         'created_at': datetime.now().isoformat()
@@ -86,7 +86,7 @@ def search_invoices_by_month(invoice_month: str):
 def search_invoices_by_customer_id(customer_id: str):
     """顧客IDで検索 (CustomerIDIndexを使用)"""
     response = table.query(
-        IndexName='CustomerIDIndex', # AWS側でこの名前のGSIを作成してください
+        IndexName='CustomerIDIndex',
         KeyConditionExpression=Key('customer_id').eq(customer_id)
     )
     return response.get('Items', [])

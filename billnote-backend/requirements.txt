@@ -3,6 +3,4 @@ uvicorn
 python-multipart
 mangum
 boto3
-python-dotenv
 openpyxl
-pydantic

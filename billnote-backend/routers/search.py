@@ -1,5 +1,3 @@
-# routers/search.py
-
 from fastapi import APIRouter, Query, HTTPException
 from fastapi.responses import StreamingResponse
 from services.invoice_service import search_invoices_by_customer, search_invoices_by_month

@@ -2,6 +2,8 @@
 __pycache__/
 *.py[cod]
 
+lambda_package/
+
 # 環境変数（パスワードなどが入る予定）
 .env
 

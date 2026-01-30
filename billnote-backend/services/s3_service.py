@@ -1,5 +1,4 @@
 import boto3
-from fastapi import UploadFile
 
 s3 = boto3.client('s3', region_name='ap-northeast-1')
 BUCKET_NAME = "billnote-storage-exceldata"

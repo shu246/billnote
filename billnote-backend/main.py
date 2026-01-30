@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from mangum import Mangum
 from routers.upload import router as upload_router
 from routers.search import router as search_router
 import os
@@ -25,3 +26,6 @@ app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
 async def read_index():
     # ブラウザで「/」にアクセスした時に index.html を返す
     return FileResponse(os.path.join(FRONTEND_DIR, "index.html"))
+
+# Lambda用のハンドラーを作成
+handler = Mangum(app)
