@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+python-multipart
+mangum
+boto3
+openpyxl

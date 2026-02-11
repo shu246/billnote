@@ -1,0 +1,42 @@
+# Pythonのキャッシュ
+__pycache__/
+*.py[cod]
+
+# パッケージ等
+annotated_doc
+annotated_doc-0.0.4.dist-info
+annotated_types
+annotated_types-0.7.0.dist-info
+anyio
+anyio-4.12.1.dist-info
+bin
+et_xmlfile
+et_xmlfile-2.0.0.dist-info
+fastapi
+fastapi-0.128.4.dist-info
+idna
+idna-3.11.dist-info
+mangum
+mangum-0.21.0.dist-info
+multipart
+openpyxl
+openpyxl-3.1.5.dist-info
+pydantic
+pydantic_core
+pydantic_core-2.41.5.dist-info
+pydantic-2.12.5.dist-info
+python_multipart
+python_multipart-0.0.22.dist-info
+starlette
+starlette-0.52.1.dist-info
+typing_extensions-4.15.0.dist-info
+typing_inspection
+typing_inspection-0.4.2.dist-info
+typing_extensions.py
+
+# 環境変数（パスワードなどが入る予定）
+.env
+
+# 今回のプロジェクト外にあるConda環境は自動で無視されますが、一応
+.venv/
+env/
