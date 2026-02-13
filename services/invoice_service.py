@@ -11,7 +11,8 @@ def get_existing_customer_id(phone: str):
     """
     GSI(PhoneIndex)を使用して、電話番号から既存の顧客IDを高速検索する
     """
-    if not phone or phone == "None":
+    # 電話番号が None, 空文字, または文字列の "None" の場合は検索しない
+    if not phone or phone == "None" or phone == "":
         return None
 
     # GSIを使ってクエリを実行
@@ -31,39 +32,43 @@ def create_invoice_record(extracted_data: dict, year_val: int, month_val: int, s
     """
     請求書情報をDynamoDBに保存し、顧客の名寄せも行う
     """
-    # 1. invoice_id を自動生成
+    # 1. invoice_id を自動生成（この請求書固有のID）
     invoice_id = str(uuid.uuid4())
     
-    # 2. 既存顧客のチェック
-    phone = str(extracted_data.get('phone', ""))
-    existing_id = get_existing_customer_id(phone)
+    # 2. 電話番号の取得と判定
+    # excel_service.py で設定した "None" を受け取る
+    phone = str(extracted_data.get('phone', "None")).strip()
     
-    if existing_id:
-        customer_id = existing_id
+    # --- 顧客ID（customer_id）の決定ロジック ---
+    if phone == "None" or phone == "":
+        # 電話番号がない場合は一律で顧客IDを「0」にする
+        customer_id = "0"
     else:
-        # 新規顧客の場合、連絡先があればID発行、なければ "0"
-        address = str(extracted_data.get('address', ""))
-        customer_id = str(uuid.uuid4()) if (phone and phone != "None") or (address and address != "None") else "0"
+        # 電話番号がある場合、既存の顧客がいるかチェック
+        existing_id = get_existing_customer_id(phone)
+        if existing_id:
+            customer_id = existing_id
+        else:
+            # 新規顧客（電話番号はあるが初登録）なら新しいUUIDを発行
+            customer_id = str(uuid.uuid4())
 
-    # 3. 日付データの整形（年-月）
+    # 3. データの整形
     invoice_month = f"{year_val}-{str(month_val).zfill(2)}"
-
-    # 4. DynamoDB保存データの作成
+    
+    # 保存するデータの作成
     item = {
         'invoice_id': invoice_id,
         'customer_id': customer_id,
-        'customer_name': str(extracted_data['customer_name']),
-        'address': str(extracted_data['address']) if extracted_data['address'] else "",
-        'phone': phone if phone != "None" else "",
-        'invoice_month': invoice_month, # YYYY-MM
-        'year': year_val,
-        'month': month_val,
-        'total_amount': int(extracted_data['total_amount']) if extracted_data['total_amount'] else 0,
+        'customer_name': extracted_data.get('customer_name', "名称未設定"),
+        'address': extracted_data.get('address', ""),
+        'phone': phone,
+        'total_amount': int(extracted_data.get('total_amount', 0)),
         's3_path': s3_path,
+        'invoice_month': invoice_month,
         'created_at': datetime.now().isoformat()
     }
 
-    # 5. DynamoDBへ書き込み
+    # 4. DynamoDBへ書き込み
     table.put_item(Item=item)
     return item
 
@@ -93,15 +98,15 @@ def search_invoices_by_customer_id(customer_id: str):
 
 def check_duplicate_invoice(customer_name: str, invoice_month: str, total_amount: int):
     """同じ顧客、同じ月、同じ金額のデータがあるかチェックする"""
-    # 顧客名インデックスを使って、その人のその月のデータを検索
     response = table.query(
         IndexName='CustomerNameIndex',
-        KeyConditionExpression=Key('customer_name').eq(customer_name),
-        # フィルタリングで月と金額を絞り込む
-        FilterExpression='invoice_month = :m AND total_amount = :a',
-        ExpressionAttributeValues={
-            ':m': invoice_month,
-            ':a': total_amount
-        }
+        KeyConditionExpression=Key('customer_name').eq(customer_name)
     )
-    return response.get('Items', []) # 存在すればリストが返る
+    
+    items = response.get('Items', [])
+    # 同名顧客の中で、月と金額が一致するものがあるか絞り込み
+    duplicates = [
+        item for item in items 
+        if item.get('invoice_month') == invoice_month and int(item.get('total_amount')) == total_amount
+    ]
+    return duplicates
