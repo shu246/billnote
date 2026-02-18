@@ -31,6 +31,35 @@
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         border: 1px solid var(--border-green);
       }
+
+      /* BillNote ロゴ部分の復活 */
+      .header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--primary-green);
+        padding-bottom: 15px;
+      }
+      .logo-icon {
+        background-color: var(--accent-green);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-size: 20px;
+        margin-right: 15px;
+      }
+      .logo-text {
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--accent-green);
+        letter-spacing: 1px;
+      }
+
       .section-box {
         background-color: #f8fbf9;
         padding: 25px;
@@ -46,7 +75,6 @@
         margin-bottom: 20px;
       }
 
-      /* モード切替ボタンのスタイル */
       .mode-tabs {
         display: flex;
         gap: 10px;
@@ -62,7 +90,6 @@
         background-color: white;
         color: var(--accent-green);
       }
-      /* 選択されている時の色 */
       .btn-mode.active {
         background-color: var(--accent-green);
         color: white;
@@ -95,7 +122,6 @@
         height: 42px;
       }
 
-      /* 選択中リスト */
       #selectionDisplay {
         font-size: 13px;
         background: #fff;
@@ -108,7 +134,6 @@
         overflow-y: auto;
       }
 
-      /* 進捗・ログ表示 */
       .progress-wrapper {
         margin: 20px 0;
         display: none;
@@ -179,6 +204,11 @@
   </head>
   <body>
     <div class="container">
+      <div class="header">
+        <div class="logo-icon">B</div>
+        <div class="logo-text">BillNote</div>
+      </div>
+
       <div class="section-box">
         <h2>請求書の登録</h2>
 
@@ -266,7 +296,6 @@
             <span id="progressCount">0 / 0</span>
           </div>
         </div>
-
         <div id="message"></div>
       </div>
 
@@ -310,7 +339,7 @@
           <input
             type="text"
             id="searchName"
-            placeholder="顧客名"
+            placeholder="顧客名（苗字のみ可）"
             style="width: 180px"
           />
           <button
@@ -380,7 +409,6 @@
           display.textContent = "未選択";
           return;
         }
-
         const list = files
           .map((f) => `<li>${f.webkitrelativepath || f.name}</li>`)
           .join("");
@@ -403,7 +431,6 @@
         const msg = document.getElementById("message");
         const progArea = document.getElementById("progressArea");
         const progGauge = document.getElementById("progressGauge");
-
         msg.style.display = "block";
         msg.innerHTML = "<strong>📊 処理結果:</strong>";
         progArea.style.display = "block";
