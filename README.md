@@ -1,18 +1,44 @@
 # Billnote（領収書管理アプリ）
 
 ## 概要
-領収書管理と顧客管理ができる Web アプリです。  
-領収書（Excel）のアップロードと、顧客名や年月での検索ができます。
+- 領収書管理と顧客管理ができる Web アプリです。  
+- 領収書（Excel）のアップロードと、顧客名や年月での検索ができます。
 
 ## 目的・背景
-実家が営んでいる畳屋の領収書管理をもっと簡単にしたいと考え、  
-シンプルで使いやすい領収書管理兼顧客管理アプリを開発しました。
+- 実家の畳店におけるアナログな領収書管理をデジタル化し、業務効率化を図るために開発しました。
 
 ## 使用技術
 - Python / FastAPI  
 - HTML / CSS / JavaScript  
-- AWS（DynamoDB, S3）  
-- Git  
+- AWS（DynamoDB, S3, lambda）  
+- Git
+
+## アプリ画面
+- 自宅のグローバルIPアドレスでしかアクセスが出来ないためスクリーンショットでの説明になります。
+- テスト用の領収書ファイルを2026年6月にアップロードしてテストしています。
+
+### フォルダーをドラッグ＆ドロップした画面
+<img width="1905" height="910" alt="image" src="https://github.com/user-attachments/assets/9e203e4d-60ef-47be-8bd4-d05b81cd7703" />
+
+### ファイルをアップロードした画面
+<img width="1905" height="910" alt="image" src="https://github.com/user-attachments/assets/f02d170e-7799-4b9a-9729-ac6b764028b7" />
+
+### 年月検索した画面
+<img width="1905" height="910" alt="image" src="https://github.com/user-attachments/assets/505d63d8-dd47-4b11-be0c-0751c98c4797" />
+
+## ディレクトリー構造
+
+```text
+billnote/
+├── main.py              # アプリケーションのエントリポイント（FastAPI）
+├── static/              # HTMLファイル
+├── utils/               # Excelファイルの処理
+├── routers/             # API エンドポイント
+├── services/            # AWSとのやりとり
+├── others/              # ライブラリ一覧や更新履歴
+├── .gitignore
+└── README.md            # プロジェクト説明資料
+```
 
 ## 使用方法・機能
 
