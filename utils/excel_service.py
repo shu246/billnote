@@ -7,10 +7,10 @@ def extract_excel_data(file_content: bytes):
     wb = openpyxl.load_workbook(filename=BytesIO(file_content), data_only=True)
     sheet = wb.active  # 一番左のシートを取得
 
-    # 抽出したい項目を指定
+    # 電話番号のデータ取得
     raw_phone = sheet["C44"].value
     
-    # 電話番号の判定ロジック
+    # 電話番号の判定
     if raw_phone:
         phone = str(raw_phone).strip()
     else:
@@ -31,7 +31,7 @@ def extract_excel_data(file_content: bytes):
         name = name.replace("様", "")
         
         # 2. 全角スペースと半角スペースをすべて削除
-        # \s は半角スペースや改行、[　] は全角スペースを指定しています
+        # \s は半角スペースや改行、[　] は全角スペースを指定
         name = re.sub(r'[\s　]+', '', name)
         
         extracted["customer_name"] = name

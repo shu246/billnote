@@ -34,9 +34,5 @@ typing_inspection
 typing_inspection-0.4.2.dist-info
 typing_extensions.py
 
-# 環境変数（パスワードなどが入る予定）
-.env
-
-# 今回のプロジェクト外にあるConda環境は自動で無視されますが、一応
-.venv/
-env/
+# lambda用のzipファイル
+.zip
