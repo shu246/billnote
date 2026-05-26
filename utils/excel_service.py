@@ -23,15 +23,14 @@ def extract_excel_data(file_content: bytes):
         "total_amount": sheet["H32"].value   # 合計金額
     }
 
-    # --- 顧客名の加工処理 ---
+    # 顧客名の加工処理
     if extracted["customer_name"] and isinstance(extracted["customer_name"], str):
         name = extracted["customer_name"]
         
-        # 1. 「様」を削除
+        # 様と空白を削除
         name = name.replace("様", "")
         
-        # 2. 全角スペースと半角スペースをすべて削除
-        # \s は半角スペースや改行、[　] は全角スペースを指定
+        # 全角スペースと半角スペースをすべて削除
         name = re.sub(r'[\s　]+', '', name)
         
         extracted["customer_name"] = name
