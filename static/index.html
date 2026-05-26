@@ -4,203 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BillNote | 請求書管理</title>
-    <style>
-      :root {
-        --primary-green: #e2f0e9;
-        --accent-green: #4e9a6d;
-        --border-green: #bcd2c5;
-        --text-dark: #2c3e50;
-        --bg-white: #ffffff;
-      }
-      body {
-        font-family: "Helvetica Neue", Arial, sans-serif;
-        background-color: var(--primary-green);
-        color: var(--text-dark);
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        min-height: 100vh;
-      }
-      .container {
-        width: 100%;
-        max-width: 1100px;
-        background: var(--bg-white);
-        margin: 40px 20px;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        border: 1px solid var(--border-green);
-      }
-
-      /* BillNote ロゴ部分の復活 */
-      .header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-        border-bottom: 2px solid var(--primary-green);
-        padding-bottom: 15px;
-      }
-      .logo-icon {
-        background-color: var(--accent-green);
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: bold;
-        font-size: 20px;
-        margin-right: 15px;
-      }
-      .logo-text {
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--accent-green);
-        letter-spacing: 1px;
-      }
-
-      .section-box {
-        background-color: #f8fbf9;
-        padding: 25px;
-        border-radius: 10px;
-        border: 1.5px solid var(--border-green);
-        margin-bottom: 25px;
-      }
-      h2 {
-        font-size: 18px;
-        color: var(--accent-green);
-        border-left: 5px solid var(--accent-green);
-        padding-left: 12px;
-        margin-bottom: 20px;
-      }
-
-      .mode-tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 15px;
-      }
-      .btn-mode {
-        padding: 10px 20px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: 0.3s;
-        border: 2px solid var(--accent-green);
-        background-color: white;
-        color: var(--accent-green);
-      }
-      .btn-mode.active {
-        background-color: var(--accent-green);
-        color: white;
-      }
-
-      .upload-form-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        align-items: flex-end;
-        margin-bottom: 15px;
-      }
-      input,
-      select {
-        padding: 10px;
-        border: 1.5px solid var(--border-green);
-        border-radius: 6px;
-        background: white;
-        height: 42px;
-        box-sizing: border-box;
-      }
-      .btn-main {
-        background-color: var(--accent-green);
-        color: white;
-        border: none;
-        padding: 0 25px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        height: 42px;
-      }
-
-      #selectionDisplay {
-        font-size: 13px;
-        background: #fff;
-        padding: 12px;
-        border-radius: 6px;
-        border: 1px solid var(--border-green);
-        min-height: 40px;
-        margin-top: 10px;
-        max-height: 200px;
-        overflow-y: auto;
-      }
-
-      .progress-wrapper {
-        margin: 20px 0;
-        display: none;
-      }
-      .progress-outer {
-        width: 100%;
-        background-color: #eee;
-        border-radius: 10px;
-        height: 18px;
-        overflow: hidden;
-        border: 1px solid var(--border-green);
-      }
-      .progress-inner {
-        width: 0%;
-        height: 100%;
-        background: linear-gradient(90deg, #4e9a6d, #82c49a);
-        transition: width 0.3s ease;
-      }
-      #message {
-        margin-top: 15px;
-        padding: 15px;
-        border-radius: 6px;
-        display: none;
-        border: 1px solid var(--border-green);
-        background-color: #fff;
-        max-height: 300px;
-        overflow-y: auto;
-        font-size: 13px;
-      }
-      .log-entry {
-        border-bottom: 1px solid #f0f0f0;
-        padding: 6px 0;
-      }
-      .status-waiting {
-        color: #888;
-      }
-      .status-success {
-        color: #2e7d32;
-        font-weight: bold;
-      }
-      .status-error {
-        color: #d32f2f;
-        font-weight: bold;
-      }
-
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-      }
-      th {
-        background-color: var(--primary-green);
-        padding: 15px;
-        border: 1px solid var(--border-green);
-        text-align: left;
-      }
-      td {
-        padding: 12px;
-        border: 1px solid var(--border-green);
-      }
-      .id-link {
-        color: var(--accent-green);
-        text-decoration: none;
-        font-weight: bold;
-        cursor: pointer;
-      }
-    </style>
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
     <div class="container">
@@ -219,7 +23,7 @@
             class="btn-mode active"
             onclick="toggleMode('file')"
           >
-            📄 ファイル単位
+            ファイル単位
           </button>
           <button
             type="button"
@@ -227,19 +31,17 @@
             class="btn-mode"
             onclick="toggleMode('folder')"
           >
-            📁 フォルダー単位
+            フォルダー単位
           </button>
         </div>
 
         <form id="uploadForm" class="upload-form-grid">
           <div>
-            <label style="font-size: 11px; font-weight: bold">対象年</label
-            ><br />
+            <label class="form-label">対象年</label><br />
             <input type="number" id="year" value="2026" style="width: 85px" />
           </div>
           <div>
-            <label style="font-size: 11px; font-weight: bold">対象月</label
-            ><br />
+            <label class="form-label">対象月</label><br />
             <select id="month" style="width: 85px">
               <option value="1">1月</option>
               <option value="2">2月</option>
@@ -256,7 +58,7 @@
             </select>
           </div>
           <div style="flex-grow: 1">
-            <label id="inputLabel" style="font-size: 11px; font-weight: bold"
+            <label id="inputLabel" class="form-label"
               >エクセルファイルを選択</label
             ><br />
             <input
@@ -282,16 +84,7 @@
           <div class="progress-outer">
             <div id="progressGauge" class="progress-inner"></div>
           </div>
-          <div
-            style="
-              display: flex;
-              justify-content: space-between;
-              font-size: 12px;
-              margin-top: 5px;
-              font-weight: bold;
-              color: var(--accent-green);
-            "
-          >
+          <div class="progress-labels">
             <span id="progressPercent">0%</span>
             <span id="progressCount">0 / 0</span>
           </div>
@@ -301,15 +94,7 @@
 
       <div class="section-box">
         <h2>請求書の検索・一覧</h2>
-        <div
-          style="
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            align-items: center;
-          "
-        >
+        <div class="search-form-flex">
           <input
             type="number"
             id="searchYear"
@@ -333,9 +118,7 @@
           <button class="btn-main" onclick="searchInvoices('month')">
             年月で検索
           </button>
-          <div
-            style="width: 1px; height: 30px; background: #ccc; margin: 0 10px"
-          ></div>
+          <div class="search-divider"></div>
           <input
             type="text"
             id="searchName"
@@ -351,9 +134,7 @@
           </button>
         </div>
 
-        <table
-          style="width: 100%; border-collapse: collapse; background: white"
-        >
+        <table class="result-table-spec">
           <thead>
             <tr>
               <th style="width: 90px">顧客ID</th>
@@ -370,155 +151,6 @@
       </div>
     </div>
 
-    <script>
-      const apiBaseUrl =
-        "https://6ssxr2dq8d.execute-api.ap-northeast-1.amazonaws.com/default/billnote-api";
-      let currentMode = "file";
-
-      function toggleMode(mode) {
-        currentMode = mode;
-        const btnFile = document.getElementById("modeFile");
-        const btnFolder = document.getElementById("modeFolder");
-        const fileInp = document.getElementById("fileInput");
-        const folderInp = document.getElementById("folderInput");
-
-        if (mode === "file") {
-          btnFile.classList.add("active");
-          btnFolder.classList.remove("active");
-          fileInp.style.display = "block";
-          folderInp.style.display = "none";
-          document.getElementById("inputLabel").textContent =
-            "エクセルファイルを選択";
-        } else {
-          btnFolder.classList.add("active");
-          btnFile.classList.remove("active");
-          fileInp.style.display = "none";
-          folderInp.style.display = "block";
-          document.getElementById("inputLabel").textContent =
-            "フォルダーを選択";
-        }
-        document.getElementById("selectionDisplay").textContent = "未選択";
-      }
-
-      function updateDisplay(e) {
-        const files = Array.from(e.target.files).filter((f) =>
-          f.name.endsWith(".xlsx"),
-        );
-        const display = document.getElementById("selectionDisplay");
-        if (files.length === 0) {
-          display.textContent = "未選択";
-          return;
-        }
-        const list = files
-          .map((f) => `<li>${f.webkitrelativepath || f.name}</li>`)
-          .join("");
-        display.innerHTML = `<strong>📁 選択したファイル (${files.length}件):</strong><ul style="margin:5px 0; padding-left:18px; color:#555;">${list}</ul>`;
-      }
-      document.getElementById("fileInput").onchange = updateDisplay;
-      document.getElementById("folderInput").onchange = updateDisplay;
-
-      document.getElementById("uploadForm").onsubmit = async (e) => {
-        e.preventDefault();
-        const activeInput =
-          currentMode === "file"
-            ? document.getElementById("fileInput")
-            : document.getElementById("folderInput");
-        const files = Array.from(activeInput.files).filter((f) =>
-          f.name.endsWith(".xlsx"),
-        );
-        if (files.length === 0) return alert("ファイルを選んでください");
-
-        const msg = document.getElementById("message");
-        const progArea = document.getElementById("progressArea");
-        const progGauge = document.getElementById("progressGauge");
-        msg.style.display = "block";
-        msg.innerHTML = "<strong>📊 処理結果:</strong>";
-        progArea.style.display = "block";
-
-        for (let i = 0; i < files.length; i++) {
-          const file = files[i];
-          const logId = `log-${i}`;
-          msg.innerHTML += `<div id="${logId}" class="log-entry status-waiting">⏳ ${file.name} - 送信開始...</div>`;
-          msg.scrollTop = msg.scrollHeight;
-
-          const formData = new FormData();
-          formData.append("file", file);
-          formData.append("year", document.getElementById("year").value);
-          formData.append("month", document.getElementById("month").value);
-
-          const logElem = document.getElementById(logId);
-          try {
-            const res = await fetch(apiBaseUrl + "/upload", {
-              method: "POST",
-              body: formData,
-            });
-            if (res.ok) {
-              logElem.className = "log-entry status-success";
-              logElem.textContent = `✔ ${file.name} - 成功`;
-            } else {
-              const err = await res
-                .json()
-                .catch(() => ({ detail: "不明なエラー" }));
-              logElem.className = "log-entry status-error";
-              logElem.textContent = `✘ ${file.name} - 失敗 (${err.detail})`;
-            }
-          } catch (err) {
-            logElem.className = "log-entry status-error";
-            logElem.textContent = `✘ ${file.name} - 接続エラー`;
-          }
-
-          const percent = Math.round(((i + 1) / files.length) * 100);
-          progGauge.style.width = percent + "%";
-          document.getElementById("progressPercent").textContent =
-            percent + "%";
-          document.getElementById("progressCount").textContent =
-            `${i + 1} / ${files.length}`;
-        }
-      };
-
-      async function searchInvoices(type, val = null) {
-        let url = "";
-        if (type === "month") {
-          url = `${apiBaseUrl}/search/month?year=${document.getElementById("searchYear").value}&month=${document.getElementById("searchMonth").value}`;
-        } else if (type === "customer") {
-          const name = document.getElementById("searchName").value;
-          if (!name) return alert("氏名を入力");
-          url = `${apiBaseUrl}/search/customer?name=${encodeURIComponent(name)}`;
-        } else if (type === "id") {
-          url = `${apiBaseUrl}/search/customer_id?customer_id=${val}`;
-        }
-
-        const tbody = document.getElementById("resultTable");
-        tbody.innerHTML =
-          '<tr><td colspan="7" style="text-align:center;">検索中...</td></tr>';
-
-        try {
-          const res = await fetch(url);
-          const data = await res.json();
-          tbody.innerHTML = "";
-          if (!data.results || data.results.length === 0) {
-            tbody.innerHTML =
-              '<tr><td colspan="7" style="text-align:center;">該当なし</td></tr>';
-            return;
-          }
-          data.results.forEach((item) => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td><a class="id-link" onclick="searchInvoices('id', '${item.customer_id}')">${item.customer_id.substring(0, 8)}</a></td>
-                <td>${item.invoice_month}</td>
-                <td><b>${item.customer_name}</b></td>
-                <td style="font-size: 11px;">${item.address || "-"}</td>
-                <td>${item.phone || "-"}</td>
-                <td style="text-align: right;">${item.total_amount.toLocaleString()}円</td>
-                <td><a href="${apiBaseUrl}/download?s3_path=${encodeURIComponent(item.s3_path)}" target="_blank">
-                  <button style="background:#17a2b8; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; font-size:11px;">保存</button>
-                </a></td>`;
-            tbody.appendChild(tr);
-          });
-        } catch (err) {
-          alert("エラーが発生しました");
-        }
-      }
-    </script>
+    <script src="/static/script.js"></script>
   </body>
 </html>
