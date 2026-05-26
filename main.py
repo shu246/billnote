@@ -7,6 +7,7 @@ import os
 
 from routers.upload import router as upload_router
 from routers.search import router as search_router
+from routers.customer import router as customer_router
 
 app = FastAPI()
 
@@ -21,6 +22,7 @@ app.add_middleware(
 
 app.include_router(upload_router, prefix="/billnote-api")
 app.include_router(search_router, prefix="/billnote-api")
+app.include_router(customer_router, prefix="/billnote-api")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 static_path = os.path.join(BASE_DIR, "static")

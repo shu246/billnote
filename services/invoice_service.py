@@ -111,3 +111,20 @@ def check_duplicate_invoice(customer_name: str, invoice_month: str, total_amount
         if item.get('invoice_month') == invoice_month and int(item.get('total_amount')) == total_amount
     ]
     return duplicates
+
+def update_invoice_customer_info(invoice_id: str, address: str, phone:str):
+    """
+    住所と電話番号を更新する機能
+    """
+    response = table.update_item(
+        key={
+            'invoice_id': invoice_id
+        },
+        UpdateExpression="set address= :a, phone= :p",
+        ExpressionAttributeValues={
+            ':a': address,
+            ':p': phone
+        },
+        ReturnValues="UPDATED_NEW"
+    )
+    return response
